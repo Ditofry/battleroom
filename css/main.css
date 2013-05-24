@@ -1,0 +1,168 @@
+
+
+/* ==========================================================================
+   Impact Sandbox Landing Page
+   ========================================================================== */
+#show-links {
+	float: right;
+}
+
+.navbar {
+	position:relative;
+}
+
+.links {
+	clear: both;
+}
+
+#nav li {
+	list-style: none;
+}
+
+#main {
+	margin-top: 70px;
+}
+
+#title-options > * {
+	float: left;
+}
+
+#title-options h1 {
+	margin-right: 35px;
+}
+
+#title-options .btn {
+	margin: 25px 40px;
+}
+
+p.hero-text {
+	float: none;
+	clear: both;
+	padding-top: 45px;
+}
+
+#top-banner {
+	width: 100%;
+	height: 386px;
+	margin-bottom: 100px;
+}
+
+.top-title-box {
+	font-size: 30px;
+	width: 42%;
+	margin-top: 120px;
+	margin-left: 5%;
+	float: left;
+	line-height: 27px;
+}
+
+.top-slider {
+	float: right;
+	width: 48%;
+	margin: 20px 0;
+	border-left: dashed #D0D0D0 2px;
+	height: 337px;
+	padding-left: 27px;
+}
+
+.pokegif {
+	list-style:none;
+
+}
+
+#navigationz {
+	width: 400px;
+	border: 1px black solid;
+	box-shadow: -1px 4px 20px -2px black;
+	height: 100px;
+	position: absolute;
+	background: rgba(208,208,208, .8) 
+}
+
+.interior-nav-wrap {
+	margin-top: 20px;
+	font-size: 18px;
+}
+
+.nav-button {
+	width: 102px;
+	text-align: center;
+	border: 3px black solid;
+	float:left;
+	margin-left: 10px;
+	margin-top: -5px;
+	height: 58px;
+	padding-top: 10px;
+	cursor: pointer;
+	color: black;
+	background: rgba(250,250,250,.6);
+}
+.nav-button:hover {
+	color: white;
+	background: rgba(250,0,0,.6);
+}
+
+@-webkit-keyframes sex {   
+
+    0% { background: #F0F0F0; }    
+    25% { background: #E0E0E0; } 
+    50% { background: #D0D0D0 ; } 
+    75% { background: #C0C0C0 ; } 
+    100% { background: #B0B0B0 ; } 
+
+
+}
+.hero-unit {
+    -webkit-animation: sex 5s infinite alternate;
+    background: #33FFFF;
+    border-bottom: 4px black solid;
+    border-top: 4px black solid;
+    margin-bottom: 600px;
+}
+
+
+
+.containerz {
+	width: 100%;
+	margin-top: 0 !important;
+
+}
+
+.game-button {
+	width: 15%;
+	background: rgba(240, 240, 240, 1);
+	border: 4px solid black;
+	color: black;
+	padding: 5px;
+	margin: 10px;
+	text-decoration: none !important;
+	text-align: center;
+
+}
+@-webkit-keyframes boobs {
+		50% { top: 0;}
+    100% { top: -3px; }    
+}
+
+.playgame-text {
+	width: 25px;
+}
+
+	.game-button:hover{
+
+		background: rgba(60,60,60, 1);
+		color: white;
+
+
+	}
+
+.game-1 {
+
+	border-bottom: dashed #D0D0D0 2px;
+	border-top: dashed #D0D0D0 2px;
+	width: 350px;
+
+	margin: 20px;
+	padding: 20px;
+}
+
