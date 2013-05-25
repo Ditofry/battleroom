@@ -42,10 +42,10 @@ EntityBrandon = ig.Entity.extend({
 		this.addAnim( 'jump', 1, [7] );
 		this.addAnim( 'fall', 0.4, [1,3] );
 
-		ig.music.add( 'media/music/DST_10Class.ogg' );
+		//ig.music.add( 'media/music/DST_10Class.ogg' );
 
-		ig.music.volume = 0.5;
-		ig.music.play();	
+		// ig.music.volume = 0.5;
+		// ig.music.play();	
 
 	},
 	
