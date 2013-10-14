@@ -8,6 +8,7 @@
 	// Entities
 	'game.entities.player',
 	'game.entities.brandon',
+	'game.entities.goomba',
 	
 	// Levels
 	'game.levels.first',
@@ -18,7 +19,7 @@
 
 MyGame = ig.Game.extend({
 	
-  gravity: 300,
+  //gravity: 300,
 	
 	// Load a font
 	font: new ig.Font( 'media/04b03.font.png' ),
@@ -30,7 +31,7 @@ MyGame = ig.Game.extend({
 		ig.input.bind( ig.KEY.RIGHT_ARROW, 'right' );
 		ig.input.bind( ig.KEY.UP_ARROW, 'up' );
 		ig.input.bind( ig.KEY.DOWN_ARROW, 'down' );
-		ig.input.bind( ig.KEY.X, 'jump' );
+		//ig.input.bind( ig.KEY.X, 'jump' );
 		ig.input.bind( ig.KEY.C, 'shoot' );
 		
 		// Load the LevelTest as required above ('game.level.test')
@@ -62,6 +63,6 @@ MyGame = ig.Game.extend({
 
 // Start the Game with 60fps, a resolution of 320x240, scaled
 // up by a factor of 2
-ig.main( '#canvas', MyGame, 60, 900, 400, 1);
+ig.main( '#canvas', MyGame, 60, 1100, 700, 1);
 
 });

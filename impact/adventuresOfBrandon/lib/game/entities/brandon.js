@@ -10,11 +10,10 @@ ig.module( 'game.entities.brandon' )
 EntityBrandon = ig.Entity.extend({
 	
 	size: {x: 113, y:200},
-	//offset: {x: 4, y: 2},
 	
 	maxVel: {x: 200, y: 200},
 	
-	friction: {x: 600, y: 0},
+	friction: {x: 600, y: 600},
 	
 	// Player friendly group
 	type: ig.Entity.TYPE.A,
@@ -25,9 +24,7 @@ EntityBrandon = ig.Entity.extend({
 	
 	// These are our own properties. They are not defined in the base
 	// ig.Entity class. We just use them internally for the Player
-	flip: false,
-	accelGround: 400,
-	accelAir: 200,
+	accelGround: 200,
 	jump: 500,
 	health: 10,
 	flip: false,
@@ -42,35 +39,36 @@ EntityBrandon = ig.Entity.extend({
 		this.addAnim( 'jump', 1, [7] );
 		this.addAnim( 'fall', 0.4, [1,3] );
 
-		//ig.music.add( 'media/music/DST_10Class.ogg' );
-
-		// ig.music.volume = 0.5;
-		// ig.music.play();	
-
 	},
 	
 	
 	update: function() {
 
 		// move left or right
-		var accel = this.standing ? this.accelGround : this.accelAir;
+		var accel = this.accelGround;
+		var uAccel = this.accelAir;
 		if( ig.input.state('left') ) {
-			this.accel.x = -accel;
+			this.vel.x = -accel;
 			this.flip = true;
 		}
 		else if( ig.input.state('right') ) {
-			this.accel.x = accel;
+			this.vel.x = accel;
 			this.flip = false;
 		}
 		else if( ig.input.state('up') ) {
-			this.vel.y = -100;
+			this.vel.y = -accel;
 			this.flip = false;
 			
-			var yeti = new ig.Sound('media/sounds/yeti.mp3');
-			yeti.play();
+			// var yeti = new ig.Sound('media/sounds/yeti.mp3');
+			// yeti.play();
+		}
+		else if( ig.input.state('down') ) {
+			this.vel.y = accel;
+			this.flip = false;			
 		}
 		else {
-			this.accel.x = 0;
+			this.vel.x = 0;
+			this.vel.y = 0;
 		}
 		
 		
@@ -87,21 +85,13 @@ EntityBrandon = ig.Entity.extend({
 		}
 		
 		// set the current animation, based on the player's speed
-		if( this.vel.y < 0 ) {
-			this.currentAnim = this.anims.jump;
-		}
-		else if( this.vel.y > 0 ) {
-			this.currentAnim = this.anims.fall;
-		}
-		else if( this.vel.x != 0 ) {
+		if( this.vel.y != 0 || this.vel.x != 0 ) {
 			this.currentAnim = this.anims.run;
-		}
-		else {
+		} else {
 			this.currentAnim = this.anims.idle;
 		}
 		
 		this.currentAnim.flip.x = this.flip;
-		
 		
 		// move!
 		this.parent();
