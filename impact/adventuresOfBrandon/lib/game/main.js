@@ -8,7 +8,7 @@
 	// Entities
 	'game.entities.player',
 	'game.entities.brandon',
-	'game.entities.goomba',
+	//'game.entities.goomba',
 	
 	// Levels
 	'game.levels.first',
