@@ -10,8 +10,8 @@ EntityCombatant = ig.Entity.extend({
 
   // The players (collision) size is a bit smaller than the animation
   // frames, so we have to move the collision box a bit (offset)
-  size: {x: 200, y:160},
-  // offset: {x: 85, y: -20},
+  size: {x: 70, y:145},
+  offset: {x: 65, y: 0},
 
   maxVel: {x: 300, y: 500},
   friction: {x: 800, y: 0},
@@ -22,7 +22,6 @@ EntityCombatant = ig.Entity.extend({
 
   animSheet: new ig.AnimationSheet( 'media/liz-fight.png', 200, 160 ),
 
-
   // These are our own properties. They are not defined in the base
   // ig.Entity class. We just use them internally for the Player
   accelGround: 900,
@@ -31,20 +30,25 @@ EntityCombatant = ig.Entity.extend({
   health: 100,
   flip: true,
 
+  // Until we get multiple strike anims...
+  strikeTimer: new ig.Timer(),
+  strikeTimerDelay: 0.15,
+  currentStrike: '',
+
   init: function( x, y, settings ) {
     this.parent( x, y, settings );
 
     // Add the animations
     this.addAnim( 'idle', 0.4, [0,1] );
-    this.addAnim( 'run', 0.2, [1,2] );
-    this.addAnim( 'punch', 2, [4,4,4]);
-    this.addAnim( 'kick', 2, [5,5,5]);
+    this.addAnim( 'run', 0.2, [0,2] );
+    this.addAnim( 'punch', 2, [4]);
+    this.addAnim( 'kick', 2, [5]);
     this.addAnim( 'jump', 1, [6] );
     this.addAnim( 'fall', 1, [6] );
-    this.addAnim( 'flyingPunch', 1, [7]);
+    this.addAnim( 'flyingPunch', 1, [7,6]);
+    this.addAnim( 'flyingKick', 1, [8,6]);
     this.addAnim( 'dmg', 0.1, [1,3]);
   },
-
 
   update: function() {
 
@@ -62,27 +66,40 @@ EntityCombatant = ig.Entity.extend({
       this.accel.x = 0;
     }
 
-
     // jump
     if( this.standing && ig.input.pressed('jump') ) {
       this.vel.y = -this.jump;
     }
 
-
-    // shoot
-    if( ig.input.pressed('shoot') ) {
-      ig.game.spawnEntity( EntitySlimeGrenade, this.pos.x, this.pos.y, {flip:this.flip} );
+    // standing punch
+    if( this.standing && ig.input.pressed('punch') ) {
+      this.strikeTimer.reset();
+      this.currentStrike = 'punch';
     }
+    // standing kick
+    if( this.standing && ig.input.pressed('kick') ) {
+      this.strikeTimer.reset();
+      this.currentStrike = 'kick';
+    }
+    // standing punch
+    if( this.vel.y != 0 && ig.input.pressed('punch') ) {
+      this.strikeTimer.reset();
+      this.currentStrike = 'flyingPunch';
+    }
+    // standing kick
+    if( this.vel.y != 0 && ig.input.pressed('kick') ) {
+      this.strikeTimer.reset();
+      this.currentStrike = 'flyingKick';
+    }
+
+    // // shoot
+    // if( ig.input.pressed('shoot') ) {
+    //   ig.game.spawnEntity( EntitySlimeGrenade, this.pos.x, this.pos.y, {flip:this.flip} );
+    // }
 
     // set the current animation, based on the player's speed
     if( this.vel.y < 0 ) {
       this.currentAnim = this.anims.jump;
-    }
-    else if( this.standing && ig.input.pressed('punch') ) {
-      this.currentAnim = this.anims.punch;
-    }
-    else if( this.standing && ig.input.pressed('kick') ) {
-      this.currentAnim = this.anims.kick;
     }
     else if( this.vel.y > 0 ) {
       this.currentAnim = this.anims.fall;
@@ -94,8 +111,17 @@ EntityCombatant = ig.Entity.extend({
       this.currentAnim = this.anims.idle;
     }
 
-    this.currentAnim.flip.x = this.flip;
+    // Determine strike
+    if( this.strikeTimer.delta() < this.strikeTimerDelay ){
+      this.currentAnim = this.anims[this.currentStrike];
+    }
 
+    // kick
+    if( this.standing && ig.input.pressed('kick') ) {
+      this.currentAnim = this.anims.kick;
+    }
+
+    this.currentAnim.flip.x = this.flip;
 
     // move!
     this.parent();

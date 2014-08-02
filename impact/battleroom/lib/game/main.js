@@ -17,7 +17,6 @@ MyGame = ig.Game.extend({
 	// Load a font
 	font: new ig.Font( 'media/04b03.font.png' ),
 
-
 	init: function() {
 		// Bind keys
 		ig.input.bind( ig.KEY.LEFT_ARROW, 'left' );
@@ -29,6 +28,9 @@ MyGame = ig.Game.extend({
 		ig.game.clearColor = '#00FFFF';
 		// Load the LevelTest as required above ('game.level.test')
 		this.loadLevel( LevelBattleroom1 );
+		ig.music.add( 'media/music/guile.mp3' );
+		ig.music.volume = 0.5;
+		ig.music.play();
 	},
 
 	update: function() {
