@@ -12,7 +12,7 @@ ig.module(
 
 MyGame = ig.Game.extend({
 
-	gravity: 300, // All entities are affected by this
+	gravity: 1300,
 
 	// Load a font
 	font: new ig.Font( 'media/04b03.font.png' ),
@@ -49,7 +49,7 @@ MyGame = ig.Game.extend({
 		// Draw all entities and BackgroundMaps
 		this.parent();
 
-		this.font.draw( 'Arrow Keys, X, C', 2, 2 );
+		this.font.draw( 'Arrow Keys, X, C, Z', 2, 2 );
 	}
 });
 

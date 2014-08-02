@@ -10,7 +10,7 @@ EntityCombatant = ig.Entity.extend({
 
   // The players (collision) size is a bit smaller than the animation
   // frames, so we have to move the collision box a bit (offset)
-  size: {x: 70, y:145},
+  size: {x: 70, y:140},
   offset: {x: 65, y: 0},
 
   maxVel: {x: 300, y: 500},
@@ -24,9 +24,9 @@ EntityCombatant = ig.Entity.extend({
 
   // These are our own properties. They are not defined in the base
   // ig.Entity class. We just use them internally for the Player
-  accelGround: 900,
-  accelAir: 200,
-  jump: 200,
+  accelGround: 2100,
+  accelAir: 2900,
+  jump: 2900,
   health: 100,
   flip: true,
 
@@ -51,7 +51,17 @@ EntityCombatant = ig.Entity.extend({
     this.addAnim( 'flyingKick', 1, [8,6]);
     this.addAnim( 'dmg', 0.1, [1,3]);
   },
+  handleMovementTrace: function( res ) {
+      // This completely ignores the trace result (res) and always
+      // moves the entity according to its velocity
+      if( this.vel.y < 0 ) {
+        this.pos.x += this.vel.x * ig.system.tick;
+        this.pos.y += this.vel.y * ig.system.tick;
+      } else {
+        this.parent(res);
+      }
 
+  },
   update: function() {
 
     // move left or right.  Will this preserve horizontal momentum?
@@ -98,10 +108,6 @@ EntityCombatant = ig.Entity.extend({
       this.bigImpact.play();
     }
 
-    // // shoot
-    // if( ig.input.pressed('shoot') ) {
-    //   ig.game.spawnEntity( EntitySlimeGrenade, this.pos.x, this.pos.y, {flip:this.flip} );
-    // }
 
     // set the current animation, based on the player's speed and active strike
     if( this.strikeTimer.delta() < this.strikeTimerDelay ){
@@ -127,58 +133,5 @@ EntityCombatant = ig.Entity.extend({
   }
 });
 
-
-// The grenades a player can throw are NOT in a separate file, because
-// we don't need to be able to place them in Weltmeister. They are just used
-// here in the code.
-
-// Only entities that should be usable in Weltmeister need to be in their own
-// file.
-EntitySlimeGrenade = ig.Entity.extend({
-  size: {x: 10, y: 10},
-  offset: {x: 2, y: 2},
-  maxVel: {x: 200, y: 200},
-
-
-  // The fraction of force with which this entity bounces back in collisions
-  bounciness: 2,
-
-  type: ig.Entity.TYPE.NONE,
-  checkAgainst: ig.Entity.TYPE.B, // Check Against B - our evil enemy group
-  collides: ig.Entity.COLLIDES.PASSIVE,
-
-  animSheet: new ig.AnimationSheet( 'media/slime-grenade.png', 8, 8 ),
-
-  bounceCounter: 0,
-
-
-  init: function( x, y, settings ) {
-    this.parent( x, y, settings );
-
-    this.vel.x = (settings.flip ? -this.maxVel.x : this.maxVel.x);
-    this.vel.y = -50;
-    this.addAnim( 'idle', 0.2, [0,1] );
-  },
-
-  handleMovementTrace: function( res ) {
-    this.parent( res );
-    // Count bounces
-    if( res.collision.x || res.collision.y ) {
-
-      // only bounce 300 times
-      this.bounceCounter++;
-      if( this.bounceCounter > 5 ) {
-        //this.kill();
-      }
-    }
-  },
-
-  // This function is called when this entity overlaps anonther entity of the
-  // checkAgainst group. I.e. for this entity, all entities in the B group.
-  check: function( other ) {
-    other.receiveDamage( 10, this );
-    this.kill();
-  }
-});
 
 });
