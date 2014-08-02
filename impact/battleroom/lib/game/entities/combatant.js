@@ -34,13 +34,15 @@ EntityCombatant = ig.Entity.extend({
   strikeTimer: new ig.Timer(),
   strikeTimerDelay: 0.15,
   currentStrike: '',
+  bigImpact: new ig.Sound( 'media/sfx/bigImpact.ogg' ),
+  littleImpact: new ig.Sound( 'media/sfx/littleImpact.ogg' ),
 
   init: function( x, y, settings ) {
     this.parent( x, y, settings );
 
     // Add the animations
-    this.addAnim( 'idle', 0.4, [0,1] );
-    this.addAnim( 'run', 0.2, [0,2] );
+    this.addAnim( 'idle', 0.5, [0,1] );
+    this.addAnim( 'run', 0.3, [0,2] );
     this.addAnim( 'punch', 2, [4]);
     this.addAnim( 'kick', 2, [5]);
     this.addAnim( 'jump', 1, [6] );
@@ -75,21 +77,25 @@ EntityCombatant = ig.Entity.extend({
     if( this.standing && ig.input.pressed('punch') ) {
       this.strikeTimer.reset();
       this.currentStrike = 'punch';
+      this.littleImpact.play();
     }
     // standing kick
     if( this.standing && ig.input.pressed('kick') ) {
       this.strikeTimer.reset();
       this.currentStrike = 'kick';
+      this.bigImpact.play();
     }
     // standing punch
     if( this.vel.y != 0 && ig.input.pressed('punch') ) {
       this.strikeTimer.reset();
       this.currentStrike = 'flyingPunch';
+      this.littleImpact.play();
     }
     // standing kick
     if( this.vel.y != 0 && ig.input.pressed('kick') ) {
       this.strikeTimer.reset();
       this.currentStrike = 'flyingKick';
+      this.bigImpact.play();
     }
 
     // // shoot
@@ -97,8 +103,11 @@ EntityCombatant = ig.Entity.extend({
     //   ig.game.spawnEntity( EntitySlimeGrenade, this.pos.x, this.pos.y, {flip:this.flip} );
     // }
 
-    // set the current animation, based on the player's speed
-    if( this.vel.y < 0 ) {
+    // set the current animation, based on the player's speed and active strike
+    if( this.strikeTimer.delta() < this.strikeTimerDelay ){
+      this.currentAnim = this.anims[this.currentStrike];
+    }
+    else if( this.vel.y < 0 ) {
       this.currentAnim = this.anims.jump;
     }
     else if( this.vel.y > 0 ) {
@@ -109,16 +118,6 @@ EntityCombatant = ig.Entity.extend({
     }
     else {
       this.currentAnim = this.anims.idle;
-    }
-
-    // Determine strike
-    if( this.strikeTimer.delta() < this.strikeTimerDelay ){
-      this.currentAnim = this.anims[this.currentStrike];
-    }
-
-    // kick
-    if( this.standing && ig.input.pressed('kick') ) {
-      this.currentAnim = this.anims.kick;
     }
 
     this.currentAnim.flip.x = this.flip;
