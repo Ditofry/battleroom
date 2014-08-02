@@ -11,7 +11,7 @@ EntityCombatant = ig.Entity.extend({
   // The players (collision) size is a bit smaller than the animation
   // frames, so we have to move the collision box a bit (offset)
   size: {x: 200, y:160},
-  offset: {x: 0, y: -5},
+  // offset: {x: 85, y: -20},
 
   maxVel: {x: 300, y: 500},
   friction: {x: 800, y: 0},
@@ -20,7 +20,7 @@ EntityCombatant = ig.Entity.extend({
   checkAgainst: ig.Entity.TYPE.NONE,
   collides: ig.Entity.COLLIDES.PASSIVE,
 
-  animSheet: new ig.AnimationSheet( 'media/frankie-fight.png', 200, 160 ),
+  animSheet: new ig.AnimationSheet( 'media/liz-fight.png', 200, 160 ),
 
 
   // These are our own properties. They are not defined in the base
