@@ -9,7 +9,7 @@ use Rack::Auth::Basic, "NOT TODAY!!!" do |username, password|
 end
 
 set :static, true
-set :public_folder, File.dirname(__FILE__) + '/lib'
+set :public_folder, File.dirname(__FILE__) + '/'
 
 # This is where you could serve different pages depending on the device accessing the page,
 # such as for iPads and mobile devices.
