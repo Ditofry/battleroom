@@ -1,5 +1,12 @@
-require 'bundler'
-Bundler.require
 require './impact'
+require './middlewares/multiplayer_backend'
+
+use MultiPlayer::ChatBackend
 
 run Sinatra::Application
+
+# require 'bundler'
+# Bundler.require
+# require './impact'
+#
+# run Sinatra::Application
