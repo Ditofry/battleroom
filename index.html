@@ -20,6 +20,13 @@
 			bottom: 0;
 			margin: auto;
 		}
+
+		#chat-console {
+			position: fixed;
+			bottom: 0;
+			height: 200px;
+			width: 80%;
+		}
 	</style>
 
 	<script type="text/javascript" src="lib/impact/impact.js"></script>
@@ -33,24 +40,32 @@
 	</div>
 
 	<div id="chat-console">
-	  <div id="chat-text"></div>
+	  <form id="input-form" class="form-inline">
+      <div class="form-group">
+        <input id="input-handle" type="text" class="form-control" placeholder="Enter handle" autofocus />
+      </div>
+      <div class="form-group">
+        <input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />
+      </div>
+      <button class="btn btn-primary">Send</button>
+    </form>
+		<div id="chat-text"></div>
 	</div>
 	<script>
-	var scheme   = "ws://";
-var uri      = scheme + window.document.location.host + "/";
-var ws       = new WebSocket(uri);
-ws.onmessage = function(message) {
-  var data = JSON.parse(message.data);
-  $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + data.handle + "</div><div class='panel-body'>" + data.text + "</div></div>");
-};
+		var scheme   = "ws://"; // Production would be wss://
+		var uri      = scheme + window.document.location.host + "/";
+		var ws       = new WebSocket(uri);
+		ws.onmessage = function(message) {
+		  var data = JSON.parse(message.data);
+			console.log(data);
+		};
 
-$("#input-form").on("submit", function(event) {
-  event.preventDefault();
-  var handle = $("#input-handle")[0].value;
-  var text   = $("#input-text")[0].value;
-  ws.send(JSON.stringify({ handle: handle, text: text }));
-  $("#input-text")[0].value = "";
-});
+		document.getElementById("input-form").addEventListener("submit", function(event) {
+			event.preventDefault();
+		  var handle = 'Boogidy boo!';
+		  var text   = 'repetitious';
+		  ws.send(JSON.stringify({ handle: handle, text: text }));
+		});
 	</script>
 </body>
 </html>
