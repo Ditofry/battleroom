@@ -1,7 +1,7 @@
 require './impact'
 require './middlewares/multiplayer_backend'
 
-use MultiPlayer::ChatBackend
+use MultiPlayer::Server
 
 run Sinatra::Application
 

@@ -5,4 +5,4 @@ gem "faye-websocket"
 gem 'sinatra', '1.1.0'
 gem 'json'
 gem "puma"
-gem "redis"
+# gem "redis"

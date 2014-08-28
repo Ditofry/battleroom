@@ -4,10 +4,10 @@ require 'thread'
 require 'json'
 require 'erb'
 
-module ChatDemo
-  class ChatBackend
+module MultiPlayer
+  class Server
     KEEPALIVE_TIME = 15 # in seconds
-    CHANNEL        = "chat-demo"
+    CHANNEL        = "server"
 
     def initialize(app)
       @app     = app
