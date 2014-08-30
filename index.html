@@ -28,7 +28,8 @@
 			width: 80%;
 		}
 	</style>
-
+	<script type="text/javascript" src="utils/utilities.js"></script>
+	<script type="text/javascript" src="middlewares/multiplayer_server.js"></script>
 	<script type="text/javascript" src="lib/impact/impact.js"></script>
 	<script type="text/javascript" src="lib/game/main.js"></script>
 	<script>
@@ -51,21 +52,6 @@
     </form>
 		<div id="chat-text"></div>
 	</div>
-	<script>
-		var scheme   = "ws://"; // Production would be wss://
-		var uri      = scheme + window.document.location.host + "/";
-		var ws       = new WebSocket(uri);
-		ws.onmessage = function(message) {
-		  var data = JSON.parse(message.data);
-			console.log(data);
-		};
 
-		document.getElementById("input-form").addEventListener("submit", function(event) {
-			event.preventDefault();
-		  var handle = 'Boogidy boo!';
-		  var text   = 'repetitious';
-		  ws.send(JSON.stringify({ handle: handle, text: text }));
-		});
-	</script>
 </body>
 </html>

@@ -9,9 +9,11 @@ module MultiPlayer
     KEEPALIVE_TIME = 15 # in seconds
     CHANNEL        = "server"
 
+    attr_reader :players
+
     def initialize(app)
       @app     = app
-      @clients = []
+      @players = []
     end
 
     def call(env)
@@ -19,22 +21,21 @@ module MultiPlayer
         # If we don't Ping and this connection is idle for 55 seconds
         # Heroku will terminate the connection
         ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME })
+
         ws.on :open do |event|
-          # For console demonstration purposes
-          p [:open, ws.object_id]
-          @clients << ws
+          @players << ws
         end
 
         ws.on :message do |event|
           p [:message, event.data]
-          @clients.each {|client| client.send(event.data) }
+          @players.each { |player| player.send(event.data) }
           # When we want to scale
           # @redis.publish(CHANNEL, sanitize(event.data))
         end
 
         ws.on :close do |event|
           p [:close, ws.object_id, event.code, event.reason]
-          @clients.delete(ws)
+          @players.delete(ws)
           ws = nil
         end
 
