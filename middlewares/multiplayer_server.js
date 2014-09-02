@@ -4,12 +4,8 @@ var ws       = new WebSocket(uri);
 
 ws.onmessage = function(message) {
   var data = JSON.parse(message.data);
-  console.log(message);
-  console.log(data);
   if ( data.action == 'playerJoined' ) {
-    console.log('hey');
-    console.log(ig.game.entities);
-    ig.game.spawnEntity(EntityCombatant,50,50, {human:false});
+    ig.game.spawnEntity(EntityCombatant,50,50);
   }
 };
 
