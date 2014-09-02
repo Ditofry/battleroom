@@ -9,7 +9,7 @@ ws.onmessage = function(message) {
   if ( data.action == 'playerJoined' ) {
     console.log('hey');
     console.log(ig.game.entities);
-    ig.game.spawnEntity(EntityFrankie,50,50, {human:false});
+    ig.game.spawnEntity(EntityCombatant,50,50, {human:false});
   }
 };
 
