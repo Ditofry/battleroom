@@ -27,10 +27,7 @@ module MultiPlayer
         end
 
         ws.on :message do |event|
-          p [:message, event.data]
           @players.each { |player| player.send(event.data) }
-          # When we want to scale
-          # @redis.publish(CHANNEL, sanitize(event.data))
         end
 
         ws.on :close do |event|
