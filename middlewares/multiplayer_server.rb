@@ -36,7 +36,7 @@ module MultiPlayer
           ws = nil
         end
 
-        # Return async Rack response
+        # async Rack response WEEEEW!
         ws.rack_response
 
       else
@@ -44,11 +44,5 @@ module MultiPlayer
       end
     end
 
-    private
-    def sanitize(message)
-      json = JSON.parse(message)
-      json.each {|key, value| json[key] = ERB::Util.html_escape(value) }
-      JSON.generate(json)
-    end
   end
 end
