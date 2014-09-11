@@ -14,6 +14,7 @@ module MultiPlayer
     def initialize(app)
       @app     = app
       @players = []
+      @otherPlayers = {}
     end
 
     def call(env)
@@ -26,13 +27,24 @@ module MultiPlayer
           @players << ws
         end
 
+        # Too bulky... need to set player ID from server.
         ws.on :message do |event|
+          message = JSON.parse event.data
+          unless @otherPlayers[message['playerId']]
+            @otherPlayers[message['playerId']] = ws
+          end
           @players.each { |player| player.send(event.data) }
         end
 
         ws.on :close do |event|
-          p [:close, ws.object_id, event.code, event.reason]
           @players.delete(ws)
+          @otherPlayers.each do |p, c|
+            if c == ws
+              @otherPlayers.delete(p)
+              left_message = {action: 'playerLeft', playerId: p}
+              @players.each { |player| player.send(JSON.generate(left_message)) }
+            end
+          end
           ws = nil
         end
 
